@@ -16,12 +16,23 @@ const metadataTemplate = {
     ],
 }
 
+/* let tokenUris
+    // set UPLOAD_TO_PINATA to true in .env */
+
+//or
+
+let tokenUris = [
+    "ipfs//QmS67YnuLG81FJAKoEQmqZLR9PWVsdZQAnKDM7CoQzAmHx",
+    "ipfs//QmVf3dfBvwbLWy1mjK64D9MJiCtwpTkHbRzB8MDykRzteb",
+    "ipfs//QmWG59GTRut4Z35puMNL3btLGdRqUeVUFMfzUs1tAvQ3gE",
+]
+
+const FUND_AMOUNT = "1000000000000000000000" // 10 LINK
 module.exports = async function ({ getNamedAccounts, deployments }) {
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
     const chainId = network.config.chainId
 
-    let tokenUris
     // get IPFS hashes of our images
     if (process.env.UPLOAD_TO_PINATA == "true") {
         tokenUris = await handleTokenUris()
@@ -39,6 +50,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
         const tx = await vrfCoordinatorV2Mock.createSubscription()
         const txReceipt = await tx.wait(1)
         subscriptionId = txReceipt.events[0].args.subId
+        await vrfCoordinatorV2Mock.fundSubscription(subscriptionId, FUND_AMOUNT)
     } else {
         vrfCoordinatorV2Address = networkConfig[chainId].vrfCoordinatorV2
         subscriptionId = networkConfig[chainId].subscriptionId
