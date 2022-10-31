@@ -13,7 +13,7 @@ async function storeImages(imagesFilePath) {
     let responses = []
     console.log("Uploading to Pinata!")
     for (fileIndex in files) {
-        console.log(`Working on ${fileIndex}...`)
+        console.log(`Working on image ${fileIndex}...`)
         const readableStreamForFile = fs.createReadStream(`${fullImagespath}/${files[fileIndex]}`)
         // sending it
         try {
