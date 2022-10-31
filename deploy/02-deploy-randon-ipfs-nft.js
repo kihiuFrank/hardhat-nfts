@@ -1,11 +1,24 @@
 const { network, ethers } = require("hardhat")
 const { developmentChains, networkConfig } = require("../helper-hardhat-config")
 const { verify } = require("../utils/verify")
+const { storeImages } = require("../utils/uploadToPinata")
+
+const imageslocation = "./images/randomNft/"
 
 module.exports = async function ({ getNamedAccounts, deployments }) {
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
     const chainId = network.config.chainId
+
+    let tokenUris
+    // get IPFS hashes of our images
+    if (process.env.UPLOAD_TO_PINATA == "true") {
+        tokenUris = await handleTokenUris()
+    }
+
+    //1. with our own IPFS Node. https://docs.ipfs.io/ (centralised since we are the only ones running the node)
+    //2. pinata https://www.pinata.cloud/ (centralised entity) - using this
+    //3. nft.storage https://nft.storage/ (Uses filecoin blockchain - decentralised)
 
     let vrfCoordinatorV2Address, subscriptionId
 
@@ -21,12 +34,23 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     }
 
     log("-------------------------------------------------------------------")
-    const args = [
+    await storeImages(imageslocation)
+    /* const args = [
         vrfCoordinatorV2Address,
         subscriptionId,
         networkConfig[chainId].gasLane,
         networkConfig[chainId].callbackGasLimit,
         //tokenUris
         networkConfig[chainId].mintFee,
-    ]
+    ] */
 }
+
+async function handleTokenUris() {
+    tokenUris = []
+    // we need to store the Image in IPFS
+    // store the metadata in IPFS
+
+    return tokenUris
+}
+
+module.exports.tags = ["all", "randomipfs", "main"]
