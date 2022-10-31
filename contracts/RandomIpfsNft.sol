@@ -65,6 +65,7 @@ contract RandomIpfsNft is VRFConsumerBaseV2, ERC721URIStorage, Ownable {
     }
 
     function requestNft() public payable returns (uint256 requestId) {
+        // people have to pay to call
         if (msg.value < i_mintFee) {
             revert RandomIpfsNft__NeedMoreETHSent();
         }
