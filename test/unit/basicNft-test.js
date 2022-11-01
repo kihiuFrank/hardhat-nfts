@@ -15,7 +15,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
               basicNft = await ethers.getContract("BasicNft", deployer)
           })
 
-          it("it deploys successfully", async () => {
+          it("basicNft deploys successfully", async () => {
               assert(basicNft.address)
           })
 
