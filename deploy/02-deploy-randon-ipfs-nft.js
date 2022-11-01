@@ -22,9 +22,9 @@ const metadataTemplate = {
 //or
 
 let tokenUris = [
-    "ipfs//QmS67YnuLG81FJAKoEQmqZLR9PWVsdZQAnKDM7CoQzAmHx",
-    "ipfs//QmVf3dfBvwbLWy1mjK64D9MJiCtwpTkHbRzB8MDykRzteb",
-    "ipfs//QmWG59GTRut4Z35puMNL3btLGdRqUeVUFMfzUs1tAvQ3gE",
+    "ipfs://QmS67YnuLG81FJAKoEQmqZLR9PWVsdZQAnKDM7CoQzAmHx",
+    "ipfs://QmVf3dfBvwbLWy1mjK64D9MJiCtwpTkHbRzB8MDykRzteb",
+    "ipfs://QmWG59GTRut4Z35puMNL3btLGdRqUeVUFMfzUs1tAvQ3gE",
 ]
 
 const FUND_AMOUNT = "1000000000000000000000" // 10 LINK
