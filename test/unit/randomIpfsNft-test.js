@@ -1,6 +1,7 @@
 const { assert, expect } = require("chai")
 const { utils } = require("ethers")
 const { network, getNamedAccounts, deployments, ethers } = require("hardhat")
+const { r } = require("tar")
 const { developmentChains } = require("../../helper-hardhat-config")
 
 !developmentChains.includes(network.name)
@@ -66,6 +67,11 @@ const { developmentChains } = require("../../helper-hardhat-config")
               it("mints NFT after random number is returned", async function () {
                   await new Promise(async (resolve, reject) => {
                       randomIpfsNft.once("NftMinted", async () => {
+                          // setting up the event listener for NftMinted
+                          console.log("NftMinted event fired!")
+                          // assert throws an error if it fails, so we need to wrap
+                          // it in a try/catch so that the promise returns event
+                          // if it fails.
                           try {
                               const tokenUri = await randomIpfsNft.tokenURI("0")
                               const tokenCounter = await randomIpfsNft.getTokenCounter()
@@ -77,6 +83,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                               reject(e)
                           }
                       })
+
                       try {
                           const requestNftResponse = await randomIpfsNft.requestNft({
                               value: mintFee.toString(),
@@ -93,6 +100,4 @@ const { developmentChains } = require("../../helper-hardhat-config")
                   })
               })
           })
-
-          describe("withdraw", () => {})
       })
