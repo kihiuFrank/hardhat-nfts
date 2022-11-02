@@ -10,7 +10,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
               accounts = await ethers.getSigners()
               deployer = accounts[0]
               //   deployer = await getNamedAccounts()
-              await deployments.fixture(["randomipfs"])
+              await deployments.fixture(["mocks", "randomipfs"])
               randomIpfsNft = await ethers.getContract("RandomIpfsNft", deployer)
           })
 
