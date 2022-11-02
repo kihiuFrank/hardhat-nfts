@@ -100,4 +100,37 @@ const { developmentChains } = require("../../helper-hardhat-config")
                   })
               })
           })
+
+          describe("withdraw", () => {
+              it("only owner can withdraw", async () => {
+                  const attacker = accounts[1]
+                  const attackerConnectedContract = await randomIpfsNft.connect(attacker)
+                  await expect(attackerConnectedContract.withdraw()).to.be.revertedWith(
+                      "Ownable: caller is not the owner" // from the Ownable contract we inherited.
+                  )
+              })
+          })
+
+          describe("getBreedFromModdedRng", () => {
+              it("returns pug if moddedRng is less than 10", async () => {
+                  const valueReturned = await randomIpfsNft.getBreedFromModdedRng(5)
+                  assert.equal(valueReturned, 0)
+              })
+
+              it("returns shibaInu if moddedRng is 11 - 30", async () => {
+                  const valueReturned = await randomIpfsNft.getBreedFromModdedRng(23)
+                  assert.equal(valueReturned, 1)
+              })
+
+              it("returns St Benard if moddedRng is 31-99", async () => {
+                  const valueReturned = await randomIpfsNft.getBreedFromModdedRng(47)
+                  assert.equal(valueReturned, 2)
+              })
+
+              it("should revert if moddedRng is > 99", async () => {
+                  await expect(
+                      randomIpfsNft.getBreedFromModdedRng(100)
+                  ).to.be.revertedWithCustomError(randomIpfsNft, "RandomIpfsNft__RangeOutOfBounds")
+              })
+          })
       })
