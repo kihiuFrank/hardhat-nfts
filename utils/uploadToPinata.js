@@ -3,6 +3,13 @@ const path = require("path")
 const fs = require("fs")
 require("dotenv").config
 
+// Hosting data on IPFS
+// Pros: Cheap
+// Cons: Someone needs to pin our data
+
+// Hosting on chain
+// Pros: The data is on chain! We don't have to worry about someone pinning our data.
+// Cons: Much more expensive.
 const pinataApiKey = process.env.PINATA_API_KEY
 const pinataApiSecret = process.env.PINATA_API_SECRET
 const pinata = pinataSDK(pinataApiKey, pinataApiSecret)
@@ -31,7 +38,7 @@ async function storeTokenUriMetadata(metadata) {
         const response = await pinata.pinJSONToIPFS(metadata)
         return response
     } catch (error) {
-        console.log(error);
+        console.log(error)
     }
     return null
 }

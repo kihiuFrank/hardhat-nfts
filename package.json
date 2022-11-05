@@ -11,6 +11,7 @@
     "@typechain/ethers-v5": "^10.1.0",
     "@typechain/hardhat": "^6.1.2",
     "@types/mocha": "^9.1.0",
+    "base64-sol": "^1.1.0",
     "chai": "^4.3.4",
     "ethers": "^5.5.3",
     "hardhat": "^2.12.0",
@@ -24,7 +25,7 @@
   },
   "dependencies": {
     "@aave/protocol-v2": "^1.0.1",
-    "@chainlink/contracts": "0.4.0",
+    "@chainlink/contracts": "^0.5.1",
     "@ethersproject/bignumber": "^5.5.0",
     "dotenv": "^14.2.0",
     "prettier-plugin-solidity": "^1.0.0-beta.19",
