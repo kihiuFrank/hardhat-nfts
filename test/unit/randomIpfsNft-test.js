@@ -11,7 +11,8 @@ const { developmentChains } = require("../../helper-hardhat-config")
           beforeEach("runs before every test", async () => {
               accounts = await ethers.getSigners()
               deployer = accounts[0]
-              //   deployer = await getNamedAccounts()
+              //accounts = await getNamedAccounts()
+              //deployer = accounts.deployer
               await deployments.fixture(["mocks", "randomipfs"])
               randomIpfsNft = await ethers.getContract("RandomIpfsNft", deployer)
               vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock", deployer)

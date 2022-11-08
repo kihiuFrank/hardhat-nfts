@@ -11,7 +11,7 @@ contract DynamicSvgNft is ERC721 {
     // some logic to say "show X image" or "show Y image"
     // this will just be changing the tokenUri
 
-    uint256 private s_tokenCounter;
+    uint256 public s_tokenCounter;
     string private i_lowImageURI;
     string private i_highImageURI;
     AggregatorV3Interface internal immutable i_priceFeed;
@@ -94,5 +94,9 @@ contract DynamicSvgNft is ERC721 {
                     )
                 )
             );
+    }
+
+    function getTokenCounter() public view returns (uint256) {
+        return s_tokenCounter;
     }
 }
