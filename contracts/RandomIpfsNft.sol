@@ -96,7 +96,7 @@ contract RandomIpfsNft is VRFConsumerBaseV2, ERC721URIStorage, Ownable {
         // 31-100 St. Benard
 
         Breed dogBreed = getBreedFromModdedRng(moddedRng);
-        s_tokenCounter++;
+        s_tokenCounter = s_tokenCounter + 1;
         _safeMint(dogOwner, newTokenId);
         _setTokenURI( // not the most gas efficient but it has lots of costomization
             newTokenId,
