@@ -11,6 +11,9 @@ contract DynamicSvgNft is ERC721 {
     // some logic to say "show X image" or "show Y image"
     // this will just be changing the tokenUri
 
+    //error
+    error ERC721Metadata__URI_QueryFor_NonExistentToken();
+
     uint256 private s_tokenCounter;
     string private s_lowImageURI;
     string private s_highImageURI;
@@ -36,7 +39,7 @@ contract DynamicSvgNft is ERC721 {
 
     function mintNft(int256 highValue) public {
         s_tokenIdToHighValue[s_tokenCounter] = highValue;
-        s_tokenCounter++;
+        s_tokenCounter;
         _safeMint(msg.sender, s_tokenCounter);
         emit CreatedNFT(s_tokenCounter, highValue);
     }
@@ -63,11 +66,13 @@ contract DynamicSvgNft is ERC721 {
         override
         returns (string memory)
     {
-        require(_exists(tokenId), "URI Query for non-existent token");
-        //string memory imageURI = "hi";
+        if (!_exists(tokenId)) {
+            revert ERC721Metadata__URI_QueryFor_NonExistentToken();
+        }
 
         (, int256 price, , , ) = i_priceFeed.latestRoundData();
         string memory imageURI = s_lowImageURI;
+
         if (price >= s_tokenIdToHighValue[tokenId]) {
             imageURI = s_highImageURI;
         }
