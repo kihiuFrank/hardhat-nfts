@@ -27,7 +27,6 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     const highSvg = fs.readFileSync("./images/dynamicNft/happy.svg", { encoding: "utf8" })
 
     // now we deploy
-    console.log("Deploying Contract...")
     args = [ethUsdPriceFeedAddress, lowSvg, highSvg]
     const dynamicSvgNft = await deploy("DynamicSvgNft", {
         from: deployer,
@@ -35,7 +34,6 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
         log: true,
         waitConfirmations: network.config.blockConfirmations || 1,
     })
-    console.log("Contract Deployed!")
 
     log("-------------------------------------------------------------------")
     // Verify the deployment
