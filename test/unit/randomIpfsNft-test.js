@@ -16,7 +16,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
               await deployments.fixture(["mocks", "randomipfs"])
               randomIpfsNft = await ethers.getContract("RandomIpfsNft", deployer)
               vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock", deployer)
-              mintFee = await randomIpfsNft.getMintfee()
+              mintFee = await randomIpfsNft.getMintFee()
           })
 
           it("randomIpfsNft deploys successfully", async () => {
@@ -52,10 +52,10 @@ const { developmentChains } = require("../../helper-hardhat-config")
               })
 
               it("emits event nftRequested and kicks off random word request", async () => {
-                  await expect(randomIpfsNft.requestNft({ value: mintFee })).to.emit(
-                      randomIpfsNft,
-                      "NftRequested"
-                  )
+                  const txResponse = await randomIpfsNft.requestNft({ value: mintFee })
+                  await txResponse.wait(1)
+
+                  await expect(txResponse).to.emit(randomIpfsNft, "NftRequested")
               })
           })
 
