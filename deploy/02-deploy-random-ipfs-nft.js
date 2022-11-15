@@ -21,10 +21,16 @@ const metadataTemplate = {
 
 //or
 
+// let tokenUris = [
+//     "ipfs://QmS67YnuLG81FJAKoEQmqZLR9PWVsdZQAnKDM7CoQzAmHx",
+//     "ipfs://QmVf3dfBvwbLWy1mjK64D9MJiCtwpTkHbRzB8MDykRzteb",
+//     "ipfs://QmWG59GTRut4Z35puMNL3btLGdRqUeVUFMfzUs1tAvQ3gE",
+// ]
+
 let tokenUris = [
-    "ipfs://QmS67YnuLG81FJAKoEQmqZLR9PWVsdZQAnKDM7CoQzAmHx",
-    "ipfs://QmVf3dfBvwbLWy1mjK64D9MJiCtwpTkHbRzB8MDykRzteb",
-    "ipfs://QmWG59GTRut4Z35puMNL3btLGdRqUeVUFMfzUs1tAvQ3gE",
+    "ipfs://QmUjPgLZGqaDgRUhtc7uvM4Gp2BvcviTaBZfBcM2UML1oL",
+    "ipfs://QmPGwwAHLMn8MjcQf8A3LSGkfoJdEcWyADLyxL8JdfuATD",
+    "ipfs://QmR8SUd3g8BNePSbBgRALy65sJpPc3WRe1vXNvUxyK7Rxv",
 ]
 
 const FUND_AMOUNT = "1000000000000000000000" // 10 LINK
@@ -35,6 +41,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
 
     // get IPFS hashes of our images
     if (process.env.UPLOAD_TO_PINATA == "true") {
+        // set to true in .env if you want to upload
         tokenUris = await handleTokenUris()
     }
 
@@ -60,7 +67,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     }
 
     log("-------------------------------------------------------------------")
-
+    //await storeImages(imagesLocation)
     const args = [
         vrfCoordinatorV2Address,
         subscriptionId,
@@ -95,12 +102,12 @@ async function handleTokenUris() {
         let tokenUriMetadata = { ...metadataTemplate } // (...)syntax - unpack metadataTemplate
         tokenUriMetadata.name = files[imageUploadResponseIndex].replace(".png", "") // drop the file extensions
         tokenUriMetadata.description = `An adorable ${tokenUriMetadata.name} puppy!`
-        tokenUriMetadata.image = `ipfs//${imageUploadResponses[imageUploadResponseIndex].IpfsHash}`
+        tokenUriMetadata.image = `ipfs://${imageUploadResponses[imageUploadResponseIndex].IpfsHash}`
         console.log(`Uploading ${tokenUriMetadata.name}...`)
 
         //store the JSON to pinata / IPFS
         const metadataUploadResponse = await storeTokenUriMetadata(tokenUriMetadata)
-        tokenUris.push(`ipfs//${metadataUploadResponse.IpfsHash}`)
+        tokenUris.push(`ipfs://${metadataUploadResponse.IpfsHash}`)
     }
 
     console.log("Token URIs Uploaded! They are: ")

@@ -15,20 +15,20 @@ error RandomIpfsNft__Transferfailed();
 
 contract RandomIpfsNft is VRFConsumerBaseV2, ERC721URIStorage, Ownable {
     // when we mint an NFT, we will triger a Chainlink VRF call to get us a random number
-    // using that number, we will get a randon NFT
-    // pug, Shiba Inu, St. Benard
-    // Pug - super rare
+    // using that number, we will get a random NFT
+    // Tommy, Shiba Inu, Simba
+    // Tommy - super rare
     // Shiba Inu - sort of rare
-    // St. Benard - common
+    // Simba - common
 
     // users have to pay to mint an NFT
     // owner of the contract can withdraw the ETH (paying the artist to create these NFTs)
 
     //Type Declaration
     enum Breed {
-        PUG,
+        TOMMY,
         SHIBA_INU,
-        ST_BERNARD
+        SIMBA
     }
     // chainlink VRF variables
     VRFCoordinatorV2Interface private immutable i_vrfCoordinator;
@@ -58,7 +58,7 @@ contract RandomIpfsNft is VRFConsumerBaseV2, ERC721URIStorage, Ownable {
         uint32 callBackGasLimit,
         string[3] memory dogTokenUris,
         uint256 mintFee
-    ) VRFConsumerBaseV2(vrfCoordinatorV2) ERC721("Randon IPFS NFT", "RIN") {
+    ) VRFConsumerBaseV2(vrfCoordinatorV2) ERC721("Random IPFS NFT", "RIN") {
         i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2);
         i_subscriptionId = subscriptionId;
         i_gaslane = gasLane;
@@ -91,9 +91,9 @@ contract RandomIpfsNft is VRFConsumerBaseV2, ERC721URIStorage, Ownable {
         uint256 newTokenId = s_tokenCounter;
         uint256 moddedRng = randomWords[0] % MAX_CHANCE_VALUE;
         // this will always give us a number between 0 - 99
-        // 0-10 PUG
+        // 0-10 Tommy
         // 11-30 Shiba Inu
-        // 31-100 St. Benard
+        // 31-100 Simba
 
         Breed dogBreed = getBreedFromModdedRng(moddedRng);
         s_tokenCounter = s_tokenCounter + 1;
@@ -121,9 +121,9 @@ contract RandomIpfsNft is VRFConsumerBaseV2, ERC721URIStorage, Ownable {
         uint256 cumulativeSum = 0;
         uint256[3] memory chanceArray = getChanceArray();
         for (uint256 i = 0; i < chanceArray.length; i++) {
-            // Pug = 0 - 9  (10%)
+            // Tommy = 0 - 9  (10%)
             // Shiba-inu = 10 - 39  (30%)
-            // St. Bernard = 40 = 99 (60%)
+            // Simba  = 40 = 99 (60%)
             if (moddedRng >= cumulativeSum && moddedRng < chanceArray[i]) {
                 return Breed(i);
             }
